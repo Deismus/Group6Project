@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+final supabase = Supabase.instance.client;
 Future<void> main() async {
   await Supabase.initialize(
-    url: 'https://hjvahwgljwbceonwzyck.supabase.co',
+    url: 'https://hjvahwgljwbceonwzyck.supabase.co/',
     publishableKey: 'sb_publishable_MSnsDi7Oan_VdM-6RAvuoQ_CCdhlIGG',
   );
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Instruments',
+      title: 'Major List',
       home: HomePage(),
     );
   }
@@ -25,9 +26,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-  final _future = Supabase.instance.client
-      .from('instruments')
+      final _future = supabase
+      .from('majorslist')
       .select();
+  String? selectedValue = "N/A";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +43,41 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: CircularProgressIndicator());
           }
           final instruments = snapshot.data!;
-          return ListView.builder(
-            itemCount: instruments.length,
-            itemBuilder: ((context, index) {
-              final instrument = instruments[index];
-              return ListTile(
-                title: Text(instrument['name']),
-              );
+          final itemCount = instruments.length;
+          List<String> list =[];
+          for(int i = 0; i < itemCount; i++)
+          {
+            list.add(instruments[i]['name']);
+          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+            DropdownMenu(
+            hintText: "Select an option",
+            dropdownMenuEntries: list.map(buildMenuItem).toList(),
+            onSelected: (String? newValue){
+              selectedValue = newValue;
             }),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: selectedValue == null ? null
+              : () async {
+                await supabase.from('majorselectiontest').insert({'name': '$selectedValue'});
+              },
+              child: const Text('Submit Data'),
+            )
+            ],
           );
+          
         },
       ),
     );
   }
 }
+
+DropdownMenuEntry<String> buildMenuItem(String value) => DropdownMenuEntry(
+  value: value,
+  label: value,
+);
