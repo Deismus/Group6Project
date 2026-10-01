@@ -62,6 +62,10 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
 
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
               onPressed: selectedValue == null ? null
               : () async {
                 await supabase.from('majorselectiontest').insert({'name': '$selectedValue'});
