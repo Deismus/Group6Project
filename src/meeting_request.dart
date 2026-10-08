@@ -5,7 +5,7 @@ class MeetingRequest {
   String status;
 
   // constructor
-  MeetingRequest({required this.requestId, required this.senderId, required this.recipientId, this.status = 'pending'});
+  MeetingRequest({required this.requestID, required this.senderID, required this.recipientID, this.status = 'pending'});
 
   void create() {
     // TODO: Implement meeting request creation
