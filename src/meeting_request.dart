@@ -1,7 +1,7 @@
 class MeetingRequest {
-  String requestId;
-  String senderId;
-  String recipientId;
+  String requestID;
+  String senderID;
+  String recipientID;
   String status;
 
   // constructor
