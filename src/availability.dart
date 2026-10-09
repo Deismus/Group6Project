@@ -15,12 +15,13 @@ class Availability {
         _startTime = startTime,
         _endTime = endTime;
 
-  void setAvailability(
-    String day,
-    DateTime start,
-    DateTime end,
-  ) {
-    // TODO: Update the availability fields.
+  void setAvailability(List<dynamic> availabilityList) {
+    // TODO: Update the availability fields using the list.
+    throw UnimplementedError();
+  }
+
+  List<dynamic> getAvailability() {
+    // TODO: Return the availability values as a list.
     throw UnimplementedError();
   }
 }
