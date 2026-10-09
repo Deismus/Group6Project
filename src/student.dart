@@ -1,17 +1,17 @@
 import 'availability.dart';
 
 class Student {
-  String id;
-  String studentId;
-  String name;
-  String majorId;
-  String courseOfInterest;
-  List<Availability> availability;
-  String preferredStudyMethod;
-  bool contactVisibility;
+  String id = '';
+  String studentId = '';
+  String name = '';
+  String majorId = '';
+  String courseOfInterest = '';
+  List<Availability> availability = [];
+  String preferredStudyMethod = '';
+  bool contactVisibility = false;
   String? location;
-  List<Student> studyBuddies;
-  List<MeetingRequest> meetingRequests;
+  List<Student> studyBuddies = [];
+  List<MeetingRequest> meetingRequests = [];
 
   // Builds the student's profile from the info filled in the form.
   void createProfile() {}
