@@ -1,5 +1,6 @@
 import 'student.dart';
 
+//ignore: camel_case_types
 class studyBuddyBoard {
   // A2 stub: these fields will be used during implementation.
   // ignore: unused_field
