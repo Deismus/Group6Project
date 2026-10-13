@@ -263,9 +263,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           });
                           return;
                         }
-                        else if (passwordController.text.length < 8 ||passwordController.text.length >= 20) {
+                        else if (passwordController.text.length < 8 || passwordController.text.length > 20) {
                           setState(() {
-                            passwordError = 'Password must be 8-19 characters long';
+                            passwordError = 'Password must be 8-20 characters long';
                           });
                           return;
                         }
