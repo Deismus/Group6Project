@@ -2,3 +2,5 @@
 ## Team Members
 - Yomna Fassatoui
 - Leo Freije
+- Jordan Baugh
+- Kolina Katoanga
