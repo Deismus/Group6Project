@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:study_buddy_finder/pages/login.dart';
 
-final supabase = Supabase.instance.client;
 Future<void> main() async {
   await Supabase.initialize(
     url: 'https://hjvahwgljwbceonwzyck.supabase.co/',
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+<<<<<<< Updated upstream
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -83,6 +84,8 @@ class _HomePageState extends State<HomePage> {
     ); 
   }
 }
+=======
+>>>>>>> Stashed changes
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -147,7 +150,14 @@ class _RegisterPageState extends State<RegisterPage>
   }
 }
 
+<<<<<<< Updated upstream
 DropdownMenuEntry<String> buildMenuItem(String value) => DropdownMenuEntry(
   value: value,
   label: value,
 );
+=======
+*/
+
+
+
+>>>>>>> Stashed changes
