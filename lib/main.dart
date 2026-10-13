@@ -26,7 +26,73 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
-      final _future = supabase
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Log In')),
+      body: Center(
+        child:ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 200.0,
+          ),
+          child:Column(
+          spacing: 10,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'RedID',
+              ),
+            ),
+            TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+              ),
+            ),
+          
+            ElevatedButton(
+              child: const Text('Log in'),
+              onPressed: () {
+
+              },
+            ),
+
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                );
+              },
+              child: const Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline, // Adds the underline look
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        )
+        ),
+        
+      ),
+    ); 
+  }
+}
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage>
+{
+  final _future = supabase
       .from('majorslist')
       .select();
   String? selectedValue = "N/A";
