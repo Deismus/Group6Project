@@ -162,7 +162,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final redIdController = TextEditingController();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
+  String? passwordError; //error message for passwords
   String? selectedValue;
 
   @override
@@ -189,9 +191,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
+                    hintText: 'Enter a password that is 8-20 in length',
                   ),
                 ),
                 const SizedBox(height: 12),
+
+                TextField(
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    errorText: passwordError,
+                  ),
+                ),
 
                 TextField(
                   controller: nameController,
@@ -240,12 +252,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: selectedValue == null
-                      ? null
-                      : () async {
-                          await supabase
-                              .from('majorselectiontest')
-                              .insert({'name': selectedValue});
+                  // onPressed: selectedValue == null
+                  //     ? null
+                  //     : () async {
+                  onPressed: () async {
+
+                        if (passwordController.text != confirmPasswordController.text) {
+                          setState(() {
+                            passwordError = 'Passwords do not match';
+                          });
+                          return;
+                        }
+                        else if (passwordController.text.length < 8 || passwordController.text.length > 20) {
+                          setState(() {
+                            passwordError = 'Password must be 8-20 characters long';
+                          });
+                          return;
+                        }
+
+                        setState(() {
+                          passwordError = null;
+                        });
+
+                          // await supabase
+                          //     .from('majorselectiontest')
+                          //     .insert({'name': selectedValue});
                         },
                   child: const Text('Submit Data'),
                 ),
@@ -259,7 +290,7 @@ class _SignUpPageState extends State<SignUpPage> {
 }
 
 
-DropdownMenuEntry<String> buildMenuItem(String value) => DropdownMenuEntry(
-  value: value,
-  label: value,
-);
+// DropdownMenuEntry<String> buildMenuItem(String value) => DropdownMenuEntry(
+//   value: value,
+//   label: value,
+// );
