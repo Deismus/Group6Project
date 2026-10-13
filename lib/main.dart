@@ -149,7 +149,8 @@ class _RegisterPageState extends State<RegisterPage>
 }
 
 */
-class SignUpPage extends StatefulWidget{
+
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -163,6 +164,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  List<SlotInput> slots = [SlotInput()]; // all the availability rows
   String? selectedValue;
 
   @override
@@ -201,7 +203,72 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 12),
 
-            
+                // Availability title + the + button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Availability'),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      tooltip: 'Add another time slot',
+                      onPressed: () => setState(() => slots.add(SlotInput())),
+                    ),
+                  ],
+                ),
+
+                // One row (Day / Start / End) per time slot
+                for (int i = 0; i < slots.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        // Day
+                        Expanded(
+                          child: DropdownMenu<String>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'Day',
+                            dropdownMenuEntries: [
+                              'Monday',
+                              'Tuesday',
+                              'Wednesday',
+                              'Thursday',
+                              'Friday',
+                              'Saturday',
+                              'Sunday',
+                            ].map(buildMenuItem).toList(),
+                            onSelected: (v) => setState(() => slots[i].day = v),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // Start time
+                        Expanded(
+                          child: DropdownMenu<TimeOfDay>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'Start',
+                            dropdownMenuEntries: timeEntries(),
+                            onSelected: (v) =>
+                                setState(() => slots[i].start = v),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // End time
+                        Expanded(
+                          child: DropdownMenu<TimeOfDay>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'End',
+                            dropdownMenuEntries: timeEntries(),
+                            onSelected: (v) => setState(() => slots[i].end = v),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                const SizedBox(height: 12),
 
                 // Get the majors from Supabase
                 FutureBuilder(
@@ -256,6 +323,30 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
+
+// One availability row: the day, the start time and the end time.
+class SlotInput {
+  String? day;
+  TimeOfDay? start;
+  TimeOfDay? end;
+}
+
+// The times shown in the Start / End dropdowns (08:00 to 20:00, every 30 min).
+List<DropdownMenuEntry<TimeOfDay>> timeEntries() {
+  final entries = <DropdownMenuEntry<TimeOfDay>>[];
+  for (int h = 8; h <= 20; h++) {
+    for (final m in [0, 30]) {
+      if (h == 20 && m == 30) continue;
+      final label =
+          '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+      entries.add(DropdownMenuEntry(
+        value: TimeOfDay(hour: h, minute: m),
+        label: label,
+      ));
+    }
+  }
+  return entries;
 }
 
 
