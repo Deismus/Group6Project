@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:pattern_input_formatter/pattern_input_formatter.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -17,7 +19,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final redIdController = TextEditingController();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
+  List<SlotInput> slots = [SlotInput()];
+
+  String? passwordError;
   String? selectedValue;
 
   @override
@@ -32,6 +38,14 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                TextField(
                   controller: redIdController,
                   decoration: const InputDecoration(
                     labelText: 'Red ID',
@@ -44,19 +58,95 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
+                    hintText: 'Enter a password that is 8-20 in length',
                   ),
                 ),
                 const SizedBox(height: 12),
 
                 TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    errorText: passwordError,
                   ),
                 ),
-                const SizedBox(height: 12),
 
-            
+                const SizedBox(height: 12),
+                
+                TextField(
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    PatternInputFormatter(patterns: ['###-###-####']),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Availability'),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      tooltip: 'Add another time slot',
+                      onPressed: () => setState(() => slots.add(SlotInput())),
+                    ),
+                  ],
+                ),
+
+                // One row (Day / Start / End) per time slot
+                for (int i = 0; i < slots.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        // Day
+                        Expanded(
+                          child: DropdownMenu<String>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'Day',
+                            dropdownMenuEntries: [
+                              'Monday',
+                              'Tuesday',
+                              'Wednesday',
+                              'Thursday',
+                              'Friday',
+                              'Saturday',
+                              'Sunday',
+                            ].map(buildMenuItem).toList(),
+                            onSelected: (v) => setState(() => slots[i].day = v),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // Start time
+                        Expanded(
+                          child: DropdownMenu<TimeOfDay>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'Start',
+                            dropdownMenuEntries: timeEntries(),
+                            onSelected: (v) =>
+                                setState(() => slots[i].start = v),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // End time
+                        Expanded(
+                          child: DropdownMenu<TimeOfDay>(
+                            expandedInsets: EdgeInsets.zero,
+                            hintText: 'End',
+                            dropdownMenuEntries: timeEntries(),
+                            onSelected: (v) => setState(() => slots[i].end = v),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                const SizedBox(height: 12),
 
                 // Get the majors from Supabase
                 FutureBuilder(
@@ -127,7 +217,22 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   onPressed: 
                       () {
-                         
+                          if (passwordController.text != confirmPasswordController.text) {
+                            setState(() {
+                              passwordError = 'Passwords do not match';
+                            });
+                            return;
+                          }
+                          else if (passwordController.text.length < 8 || passwordController.text.length > 20) {
+                            setState(() {
+                              passwordError = 'Password must be 8-20 characters long';
+                            });
+                            return;
+                          }
+
+                          setState(() {
+                            passwordError = null;
+                          });
                         },
                   child: const Text('Submit Data'),
                 ),
@@ -140,6 +245,28 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
+class SlotInput {
+  String? day;
+  TimeOfDay? start;
+  TimeOfDay? end;
+}
+
+// The times shown in the Start / End dropdowns (08:00 to 20:00, every 30 min).
+List<DropdownMenuEntry<TimeOfDay>> timeEntries() {
+  final entries = <DropdownMenuEntry<TimeOfDay>>[];
+  for (int h = 8; h <= 20; h++) {
+    for (final m in [0, 30]) {
+      if (h == 20 && m == 30) continue;
+      final label =
+          '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+      entries.add(DropdownMenuEntry(
+        value: TimeOfDay(hour: h, minute: m),
+        label: label,
+      ));
+    }
+  }
+  return entries;
+}
 
 DropdownMenuEntry<String> buildMenuItem(String value) => DropdownMenuEntry(
   value: value,
