@@ -7,10 +7,11 @@ class Student {
   String name = '';
   String majorId = '';
   String courseOfInterest = '';
+  String contactInfo = '';
   List<Availability> availability = [];
-  String preferredStudyMethod = '';
+  //String preferredStudyMethod = '';
   bool contactVisibility = false;
-  String? location;
+  //String? location;
   List<Student> studyBuddies = [];
   List<MeetingRequest> meetingRequests = [];
 
