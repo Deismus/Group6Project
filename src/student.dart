@@ -1,3 +1,4 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'availability.dart';
 import 'meeting_request.dart';
 
@@ -15,8 +16,12 @@ class Student {
   List<Student> studyBuddies = [];
   List<MeetingRequest> meetingRequests = [];
 
+
   // Builds the student's profile from the info filled in the form.
-  void createProfile() {}
+  void createProfile() 
+  {
+
+  }
   
   // Saves the profile; returns true if it worked.
   bool saveProfile() {

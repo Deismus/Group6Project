@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:study_buddy_finder/classes/student.dart';
+import 'package:study_buddy_finder/classes/availability.dart';
 import 'package:pattern_input_formatter/pattern_input_formatter.dart';
 
 final supabase = Supabase.instance.client;
@@ -20,11 +22,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final contactController = TextEditingController();
 
-  List<SlotInput> slots = [SlotInput()];
+  List<Availability> slots = [Availability()];
 
   String? passwordError;
-  String? selectedValue;
+  String? selectedMajor;
+  String? selectedClass;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 12),
                 
                 TextField(
+                  controller: contactController,
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -89,7 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     IconButton(
                       icon: const Icon(Icons.add),
                       tooltip: 'Add another time slot',
-                      onPressed: () => setState(() => slots.add(SlotInput())),
+                      onPressed: () => setState(() => slots.add(Availability())),
                     ),
                   ],
                 ),
@@ -114,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               'Saturday',
                               'Sunday',
                             ].map(buildMenuItem).toList(),
-                            onSelected: (v) => setState(() => slots[i].day = v),
+                            onSelected: (v) => setState(() => slots[i].day = v!),
                           ),
                         ),
 
@@ -127,7 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             hintText: 'Start',
                             dropdownMenuEntries: timeEntries(),
                             onSelected: (v) =>
-                                setState(() => slots[i].start = v),
+                                setState(() => slots[i].startTime = v!),
                           ),
                         ),
 
@@ -139,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             expandedInsets: EdgeInsets.zero,
                             hintText: 'End',
                             dropdownMenuEntries: timeEntries(),
-                            onSelected: (v) => setState(() => slots[i].end = v),
+                            onSelected: (v) => setState(() => slots[i].endTime = v!),
                           ),
                         ),
                       ],
@@ -171,7 +176,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       }).toList(),
                       onSelected: (String? newValue) {
                         setState(() {
-                          selectedValue = newValue;
+                          selectedMajor = newValue;
                         });
                       },
                     );
@@ -201,7 +206,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       }).toList(),
                       onSelected: (String? newValue) {
                         setState(() {
-                          selectedValue = newValue;
+                          selectedClass = newValue;
                         });
                       },
                     );
@@ -233,6 +238,20 @@ class _SignUpPageState extends State<SignUpPage> {
                           setState(() {
                             passwordError = null;
                           });
+
+                          String defMajor = selectedMajor!;
+                          String defClass = selectedClass!;
+                          Student newStudent = Student(
+                            redIdController.text, 
+                            nameController.text, 
+                            passwordController.text,
+                            defMajor,
+                            defClass,
+                            contactController.text,
+                            false,
+                            slots
+                            );
+                          newStudent.createProfile();
                         },
                   child: const Text('Submit Data'),
                 ),
@@ -243,12 +262,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-}
-
-class SlotInput {
-  String? day;
-  TimeOfDay? start;
-  TimeOfDay? end;
 }
 
 // The times shown in the Start / End dropdowns (08:00 to 20:00, every 30 min).
