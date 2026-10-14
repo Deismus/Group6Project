@@ -22,11 +22,18 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final contactController = TextEditingController();
+  final contactInfoController = TextEditingController();
 
   List<Availability> slots = [Availability()];
 
+  //error variables
   String? passwordError;
+  String? nameError;
+  String? redIdError;
+  String? contactError;
+
+  String? selectedValue;
+  bool _isChecked = false; //contact visibility
   String? selectedMajor;
   String? selectedClass;
 
@@ -43,17 +50,30 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 TextField(
                   controller: nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Name',
+                    hintText: 'Enter a first name that is less than 30 characters',
+                    errorText: nameError,
                   ),
+                  keyboardType: TextInputType.text,
+                    inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                 ),
                 const SizedBox(height: 12),
 
                 TextField(
                   controller: redIdController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Red ID',
+                    errorText: redIdError,
+                    hintText: 'Input your full RedID'
                   ),
+                  keyboardType: TextInputType.number,
+                    inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    PatternInputFormatter(patterns: ['#########']),
+                  ],
                 ),
                 const SizedBox(height: 12),
 
@@ -79,12 +99,31 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 12),
                 
                 TextField(
-                  controller: contactController,
+                  controller: contactInfoController,
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    errorText: contactError,
+                    hintText: '###-###-####',
+                  ),
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     PatternInputFormatter(patterns: ['###-###-####']),
                   ],
+                ),
+
+                Row(
+                  children: <Widget>[
+                    const Text('Contact Visibility'),
+                    Checkbox(
+                      value: _isChecked,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          _isChecked = newValue ?? false;
+                        });
+                      },
+                    ),
+                  ]
                 ),
 
                 Row(
@@ -222,22 +261,71 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   onPressed: 
                       () {
+                          //Edge Cases:
+                          if(nameController.text.length > 30) {
+                            setState(() {
+                              nameError = 'Name is longer than 30 characters';
+                            });
+                          }
+                          else if(nameController.text.isEmpty) {
+                            setState(() {
+                              nameError = 'Name cannot be empty';
+                            });
+                          }
+                          else {
+                            setState(() {
+                              nameError = null;
+                            });
+                          }
+
+                          //only counts the digits and excludes the "#"s
+                          if(redIdController.text.replaceAll(RegExp(r'\D'), '').length != 9) {
+                            setState(() {
+                              redIdError = 'Red ID must be 9 characters long';
+                            });
+                          }
+                          else {
+                            setState(() {
+                              redIdError = null;
+                            });
+                          }
+
+
                           if (passwordController.text != confirmPasswordController.text) {
                             setState(() {
                               passwordError = 'Passwords do not match';
                             });
-                            return;
                           }
                           else if (passwordController.text.length < 8 || passwordController.text.length > 20) {
                             setState(() {
                               passwordError = 'Password must be 8-20 characters long';
                             });
-                            return;
+                          }
+                          else {  
+                            setState(() {
+                              passwordError = null;
+                            });
                           }
 
-                          setState(() {
-                            passwordError = null;
-                          });
+                          if(contactInfoController.text.replaceAll(RegExp(r'\D'), '').length != 10) {
+                            setState(() {
+                              contactError = 'Enter a full 10-digit phone number';
+                            });
+                          }
+                          else if(contactInfoController.text.replaceAll(RegExp(r'\D'), '').isEmpty) {
+                            setState(() {
+                              contactError = 'Phone number cannot be empty';
+                            });
+                          }
+                          else {
+                            setState(() {
+                              contactError = null;
+                            });
+                          }
+
+                          if (nameError != null || passwordError != null || redIdError != null || contactError != null) {
+                            return;
+                          }
 
                           String defMajor = selectedMajor!;
                           String defClass = selectedClass!;
