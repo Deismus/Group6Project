@@ -354,7 +354,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           try {
                             await newStudent.createProfile();
                           } catch (error) {
-                            if (!mounted) return;
+                            if (!context.mounted) return;
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -364,7 +364,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             return;
                           }
 
-                          if (!mounted) return;
+                          if (!context.mounted) return;
 
                           // Replace the registration screen with the board.
                           Navigator.pushReplacement(
