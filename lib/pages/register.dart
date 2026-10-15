@@ -27,11 +27,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
   List<Availability> slots = [Availability()];
 
-  //error variables
+  //TextField error variables
   String? passwordError;
   String? nameError;
   String? redIdError;
   String? contactError;
+
+  //DropdownMenu errors
+  String? majorError;
+  String? classError;
+  String? availabilityError;
 
   String? selectedValue;
   bool _isChecked = false; //contact visibility
@@ -127,14 +132,108 @@ class _SignUpPageState extends State<SignUpPage> {
                   ]
                 ),
 
+                // Get the majors from Supabase
+                FutureBuilder(
+                  future: majorsList,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    final majors = snapshot.data!;
+
+                    return DropdownMenu<String>(
+                      hintText: 'Select a major',
+                      expandedInsets: EdgeInsets.zero,
+                      dropdownMenuEntries: majors.map((major) {
+                        final name = major['name'] as String;
+                        
+                        return DropdownMenuEntry<String>(
+                          value: name,
+                          label: name,
+                        );
+                      }).toList(),
+                      onSelected: (String? newValue) {
+                        setState(() {
+                          selectedMajor = newValue;
+                        });
+                      },
+                    );
+                    
+                  },
+                ),
+
+                if (majorError != null)
+                  Text(
+                    majorError!,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 179, 38, 30),
+                      fontSize: 12,
+                    ),
+                  ),
+                
+                const SizedBox(height: 12),
+                
+                FutureBuilder(
+                  future: classesList,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    final classes = snapshot.data!;
+
+                    return DropdownMenu<String>(
+                      hintText: 'Select a class',
+                      initialSelection: selectedClass,
+                      expandedInsets: EdgeInsets.zero,
+                      dropdownMenuEntries: classes.map((classes) {
+                        final name = classes['course-code'] as String;
+
+                        return DropdownMenuEntry<String>(
+                          value: name,
+                          label: name,
+                        );
+                      }).toList(),
+                      onSelected: (String? newValue) {
+                        setState(() {
+                          selectedClass = newValue;
+                        });
+                      },
+                    );
+                  },
+                ),
+                
+                if (classError != null)
+                  Text(
+                    classError!,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 179, 38, 30),
+                      fontSize: 12,
+                    ),
+                  ),
+
+                const SizedBox(height: 12),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Availability'),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      tooltip: 'Add another time slot',
-                      onPressed: () => setState(() => slots.add(Availability())),
+
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove),
+                          tooltip: 'Remove time slot',
+                          onPressed: slots.length > 1 ? () => setState(() => slots.removeLast()) : null,
+                        ),
+
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          tooltip: 'Add another time slot',
+                          onPressed: slots.length < 7 ? () => setState(() => slots.add(Availability())) : null,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -191,68 +290,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
 
-                const SizedBox(height: 12),
+                if (availabilityError != null)
+                  Text(
+                    availabilityError!,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 179, 38, 30),
+                      fontSize: 12,
+                    ),
+                  ),
 
-                // Get the majors from Supabase
-                FutureBuilder(
-                  future: majorsList,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-
-                    final majors = snapshot.data!;
-
-                    return DropdownMenu<String>(
-                      hintText: 'Select a major',
-                      expandedInsets: EdgeInsets.zero,
-                      dropdownMenuEntries: majors.map((major) {
-                        final name = major['name'] as String;
-                        
-                        return DropdownMenuEntry<String>(
-                          value: name,
-                          label: name,
-                        );
-                      }).toList(),
-                      onSelected: (String? newValue) {
-                        setState(() {
-                          selectedMajor = newValue;
-                        });
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 12),
-                
-                FutureBuilder(
-                  future: classesList,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-
-                    final classes = snapshot.data!;
-
-                    return DropdownMenu<String>(
-                      hintText: 'Select a class',
-                      expandedInsets: EdgeInsets.zero,
-                      dropdownMenuEntries: classes.map((classes) {
-                        final name = classes['course-code'] as String;
-
-                        return DropdownMenuEntry<String>(
-                          value: name,
-                          label: name,
-                        );
-                      }).toList(),
-                      onSelected: (String? newValue) {
-                        setState(() {
-                          selectedClass = newValue;
-                        });
-                      },
-                    );
-                  },
-                ),
-                
                 const SizedBox(height: 20),
 
                 ElevatedButton(
@@ -324,7 +370,63 @@ class _SignUpPageState extends State<SignUpPage> {
                             });
                           }
 
-                          if (nameError != null || passwordError != null || redIdError != null || contactError != null) {
+                          if (selectedMajor == null) {
+                            setState(() {
+                              majorError = 'Please select a major';
+                            });
+                          } 
+                          else {
+                            setState(() {
+                              majorError = null;
+                            });
+                          }
+
+                          if (selectedClass == null) {
+                            setState(() {
+                              classError = 'Please select a class';
+                            });
+                          } else {
+                            setState(() {
+                              classError = null;
+                            });
+                          }
+
+                          bool availabilityComplete = true;
+                          bool availabilityValid = true;
+
+                          for (final slot in slots) {
+                            //Make sure day, start, and end are selected by checking aganist their default values
+                            if (slot.day.isEmpty || (slot.startTime.hour == 0 && slot.startTime.minute == 0) || (slot.endTime.hour == 0 && slot.endTime.minute == 0)) {
+                              availabilityComplete = false;
+                              break;
+                            }
+
+                            //Convert each time to minutes after midnight
+                            final startMinutes = slot.startTime.hour * 60 + slot.startTime.minute;
+                            final endMinutes = slot.endTime.hour * 60 + slot.endTime.minute;
+
+                            //End time must be later than start time
+                            if (endMinutes <= startMinutes) {
+                              availabilityValid = false;
+                              break;
+                            }
+                          }
+
+                          if (!availabilityComplete) {
+                            setState(() {
+                              availabilityError = 'Availability must be completed';
+                            });
+                          } else if (!availabilityValid) {
+                            setState(() {
+                              availabilityError = 'End time must be after start time';
+                            });
+                          } else {
+                            setState(() {
+                              availabilityError = null;
+                            });
+                          }
+
+                          if (nameError != null || passwordError != null || redIdError != null || contactError != null || majorError != null || classError != null || availabilityError != null) {
                             return;
                           }
 

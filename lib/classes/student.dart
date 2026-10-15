@@ -21,6 +21,7 @@ class Student {
   List<Student> _studyBuddies = [];
   List<MeetingRequest> _meetingRequests = [];
 
+  //Default constructor
   Student(String studentId, String name, String password, String majorId, String courseOfInterest, String contactInfo, bool contactVisibility,
            List<Availability> availability)
   {
@@ -32,7 +33,7 @@ class Student {
     _contactVisibility = contactVisibility;
     _availability = availability;
 
-    var bytes = utf8.encode(_password); 
+    var bytes = utf8.encode(password); 
     var hashedPassword = md5.convert(bytes).toString();
     _password = hashedPassword;
 
@@ -40,12 +41,14 @@ class Student {
   // Builds the student's profile from the info filled in the form.
   Future<void> createProfile() async
   {
+    //Converts all the availability data in json data
     List<Map<String, dynamic>> availabilityJsons = List<Map<String, dynamic>>.empty(growable: true);
     for(int i = 0; i < _availability.length; i++)
     {
       availabilityJsons.add(_availability[i].toJson());
     }
 
+    //sends supabase the data regarding student
     await supabase.from('test-users').insert(
       {
         'redID': _studentId, 
