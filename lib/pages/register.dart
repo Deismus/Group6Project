@@ -247,7 +247,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             passwordController.text,
                             defMajor,
                             defClass,
-                            contactController.text,
+                            contactInfoController.text,
                             false,
                             slots
                             );
