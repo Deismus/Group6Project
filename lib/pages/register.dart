@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:study_buddy_finder/classes/student.dart';
 import 'package:study_buddy_finder/classes/availability.dart';
 import 'package:pattern_input_formatter/pattern_input_formatter.dart';
+import 'package:study_buddy_finder/pages/study_buddy_board.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -260,7 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: 
-                      () {
+                      () async {
                           //Edge Cases:
                           if(nameController.text.length > 30) {
                             setState(() {
@@ -327,19 +328,51 @@ class _SignUpPageState extends State<SignUpPage> {
                             return;
                           }
 
-                          String defMajor = selectedMajor!;
-                          String defClass = selectedClass!;
+                          // Require a major and course before saving.
+                          if (selectedMajor == null || selectedClass == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please select a major and course.'),
+                              ),
+                            );  
+                            return;
+                          }
+
+                          // Create a student using the form information.
                           Student newStudent = Student(
-                            redIdController.text, 
-                            nameController.text, 
+                            redIdController.text,
+                            nameController.text,
                             passwordController.text,
-                            defMajor,
-                            defClass,
-                            contactController.text,
-                            false,
-                            slots
+                            selectedMajor!,
+                            selectedClass!,
+                            contactInfoController.text,
+                            _isChecked,
+                            slots,
+                          );
+
+                          // Save the profile before opening the board.
+                          try {
+                            await newStudent.createProfile();
+                          } catch (error) {
+                            if (!mounted) return;
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Could not save your profile. Please try again.'),
+                              ),
                             );
-                          newStudent.createProfile();
+                            return;
+                          }
+
+                          if (!mounted) return;
+
+                          // Replace the registration screen with the board.
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const StudyBuddyBoardPage(),
+                            ),
+                          );
                         },
                   child: const Text('Submit Data'),
                 ),

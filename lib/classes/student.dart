@@ -38,7 +38,7 @@ class Student {
 
   }
   // Builds the student's profile from the info filled in the form.
-  void createProfile() async
+  Future<void> createProfile() async
   {
     List<Map<String, dynamic>> availabilityJsons = List<Map<String, dynamic>>.empty(growable: true);
     for(int i = 0; i < _availability.length; i++)
@@ -54,7 +54,7 @@ class Student {
         'contactInfo': _contactInfo,
         'majorID': _majorId,
         'courseOfInterest': _courseOfInterest,
-        'availability': _availability,
+        'availability': availabilityJsons,
         'contactVisibility': _contactVisibility,
       });
 
