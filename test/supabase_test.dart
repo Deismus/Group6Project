@@ -11,7 +11,7 @@ void main() {
     // Pass the publishable key into the SDK's anonKey parameter
     await Supabase.initialize(
       url: supabaseUrl,
-      anonKey: publishableKey, 
+      publishableKey: publishableKey, 
     );
   });
 
