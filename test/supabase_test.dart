@@ -33,7 +33,7 @@ void main() {
           .select();
 
       expect(responseClasses, isNotEmpty);
-      expect(responseClasses.first['course-code'], 'PHIL 535')
+      expect(responseClasses.first['course-code'], 'PHIL 535');
 
       //Change the table tested to users once the users table is populated with at least one entry
       final List<Map<String, dynamic>> responseUsers = await client
@@ -41,7 +41,7 @@ void main() {
           .select();
 
       expect(responseClasses, isNotEmpty);
-      expect(responseClasses.first['name'], 'John Doe')
+      expect(responseClasses.first['name'], 'John Doe');
     });
 }
 }
