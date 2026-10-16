@@ -42,4 +42,3 @@ void main() {
       expect(responseClasses.first['name'], 'John Doe');
     });
 }
-}
