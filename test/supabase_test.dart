@@ -23,7 +23,7 @@ void main() {
           .from('majorslist')
           .select();
 
-      expect(reponseMajors, isNotEmpty);
+      expect(responseMajors, isNotEmpty);
       expect(responseMajors.first['name'], 'Accountancy');
 
       final List<Map<String, dynamic>> responseClasses = await client
