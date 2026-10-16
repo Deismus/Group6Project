@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:integration_test/integration_test.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   final supabaseUrl = Platform.environment['TEST_SUPABASE_URL'] ?? 'https://hjvahwgljwbceonwzyck.supabase.co/';
   final publishableKey = Platform.environment['TEST_SUPABASE_PUBLISHABLE_KEY'] ?? 'sb_publishable_MSnsDi7Oan_VdM-6RAvuoQ_CCdhlIGG';
