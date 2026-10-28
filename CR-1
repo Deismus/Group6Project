@@ -1,0 +1,9 @@
+Candidate Requirement: The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters.
+
+Type: Functional
+
+Source: lib/validation/profile_validation.dart the whole file needs additional validation on top of what it has.
+
+Status: Suspected Bug
+
+Acceptance: A password that has 8 characters and uses 3 special characters returning null.
