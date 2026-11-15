@@ -63,3 +63,50 @@ Status:Confirmed
 
 Acceptance criterion	Inserting ‘Biology’ a second time fails with a unique constraint violation.
 
+
+
+PART 6: THREE UNIT TEST CASES
+
+TC-1
+
+Requirement: CR-1
+
+Kind: Positive
+
+Unit under test (file and function): profile_validation.dart — password validation function.
+
+Input: "Abc!@#12" (8 characters with 3 special characters).
+
+Expected output: null (password is accepted).
+
+Predicted result today: Cannot determine yet. The password validation function needs to be checked.
+
+
+TC-2
+
+Requirement: CR-3
+
+Kind: Negative
+
+Unit under test (file and function): availability.dart — Availability() constructor.
+
+Input: Availability(day: "Monday", startTime: TimeOfDay(hour: 9, minute: 0), endTime: TimeOfDay(hour: 8, minute: 0))
+
+Expected output: An error rejecting the availability because the end time is before the start time.
+
+Predicted result today: Fail. The constructor currently accepts the availability without comparing the start and end times.
+
+
+TC-3
+
+Requirement: CR-3
+
+Kind: Boundary
+
+Unit under test (file and function): availability.dart — Availability() constructor.
+
+Input: Availability(day: "Monday", startTime: TimeOfDay(hour: 9, minute: 0), endTime: TimeOfDay(hour: 9, minute: 0))
+
+Expected output: An error rejecting the availability because the end time is equal to the start time.
+
+Predicted result today: Fail. The constructor currently accepts equal start and end times without validation.
