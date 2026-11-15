@@ -29,21 +29,21 @@ RULES
 
 | ID | Stakeholder | Goal |
 |---|---|---|
-| G-XX-01 |Student User |The system shall allow a student to reset their password upon request via phone number. |
+| G-DY-01 |Student User |The system shall allow a student to reset their password upon request via phone number. |
 
 ### Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| REQ-MG-01 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location. | Suspected |CR-1 The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters. |
-| REQ-MG-02 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |CR-4 Candidate requirement The system shall return true from saveProfile() when a profile is saved successfully.|
-| REQ-MG-03 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |New - The system shall provide options for students to select when creating a new profile for major and class.|
+| REQ-DY-01 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location. | Suspected |CR-1 The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters. |
+| REQ-DY-02 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |CR-4 Candidate requirement The system shall return true from saveProfile() when a profile is saved successfully.|
+| REQ-DY-03 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |New - The system shall provide options for students to select when creating a new profile for major and class.|
 
 ### Non-Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| NFR-XX-01 | The sign-up should log the user in under 5 seconds of creating a new account.| Suspected | New |
+| NFR-DY-01 | The sign-up should log the user in under 5 seconds of creating a new account.| Suspected | New |
 
 ### Example of a Good Rewrite
 
