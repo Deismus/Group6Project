@@ -35,9 +35,9 @@ RULES
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| REQ-DY-01 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location. | Suspected |CR-1 The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters. |
-| REQ-DY-02 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |CR-4 Candidate requirement The system shall return true from saveProfile() when a profile is saved successfully.|
-| REQ-DY-03 | The system shall allow a student to create a profile with name, major, class of interest, time availability, preferred study method, contact visibility (private/public), and an optional location.| Suspected |New - The system shall provide options for students to select when creating a new profile for major and class.|
+| REQ-DY-01 | The system shall reject passwords that is less than 8, greater than 30 characters, empty, or does not use at least 3 special characters, and notify the user which requirement they failed to meet.  | Suspected |CR-1 The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters. |
+| REQ-DY-02 | The system shall notify the user every time a successful save occurs at any point in the program.| Suspected |CR-4 Candidate requirement The system shall return true from saveProfile() when a profile is saved successfully.|
+| REQ-DY-03 | - The system shall load options for students to select when creating a new profile for major and class.| Suspected |New |
 
 ### Non-Functional Requirements
 
