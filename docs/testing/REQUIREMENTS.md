@@ -9,7 +9,7 @@
 |---|---|---|
 | [Signup] | [Darrin Yun] | [DY] |
 |[Data Storage] |[Diego Cardenas Pineda] |[DC] |
-| | | |
+|[RedID & Phone Number] | [Dylan Jacob Fermo] | [DF] |
 | | | |
 
 <!--
@@ -106,24 +106,25 @@ RULES
 
 ---
 
-## Section: [Your Area] ([Your Name])
+## Section: [RedID & Phone Number] ([Dylan Jacob Fermo])
 
 ### Stakeholder Goals
 
 | ID | Stakeholder | Goal |
 |---|---|---|
-| | | |
+| G-DF-01 | SDSU student registering for Study Buddy Finder | My Red ID and phone number are saved exactly as I typed them and mistakes are blocked before I submit, so classmates and the app can reliably identify me.
 
 ### Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+| REQ-DF-01 | The system shall store a Red ID exactly as entered, including any leading zeros: entering 012345678 must be stored as 012345678 and entering 000000099 must be stored as 000000099. | Suspected bug (#128, #129, #130; related to #100) | New |
+| REQ-DF-02 | The system shall not allow a Red ID that is not exactly 9 digits to be submitted: Submit Data stays disabled until 9 digits are entered and a 10th digit cannot be typed. | Confirmed | New |
+| REQ-DF-03 | The system shall accept only digits in the Red ID field; letters cannot be entered. | Confirmed | New |
+| REQ-DF-04 | The system shall allow a phone number to be submitted only if it is exactly 10 digits: Submit Data stays disabled with 9 or 11 digits. A valid number is displayed formatted as 619-555-0123. | Confirmed | New |
 
 ### Non-Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| | | | |
+| NFR-DF-01 | The Register page shall prevent invalid Red ID and phone input before submission (digits only in Red ID, Red ID limited to 9 digits, Submit Data disabled unless the phone number is exactly 10 digits), so the user cannot reach a failed submit. | Confirmed | New |
