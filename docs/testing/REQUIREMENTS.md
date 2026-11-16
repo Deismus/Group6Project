@@ -8,7 +8,7 @@
 | Area of the system | Owner | ID prefix |
 |---|---|---|
 | [Signup] | [Darrin Yun] | [DY] |
-| | | |
+|[Data Storage] |[Diego Cardenas Pineda] |[DC] |
 | | | |
 | | | |
 
@@ -54,29 +54,33 @@ RULES
 
 ---
 
-## Section: [Your Area] ([Your Name])
+## Section: [Data Storage] ([Diego Cardenas Pineda])
 
 ### Stakeholder Goals
 
 | ID | Stakeholder | Goal |
 |---|---|---|
-| | | |
+| G-DC-01 | SDSU student creating a profile | I can pick my major from a complete list that includes "Other", so my profile is accurate even if my major is not listed. |
+| G-DC-02 | SDSU student looking for study partners | Each major appears exactly once in the list, so I never wonder which of two similar entries to choose. |
+| G-DC-03 | SDSU student looking for study partners | The major I pick is stored in my profile in a form that can always be matched back to the major list, so people who share my major can find me. |
 
 ### Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+| REQ-DC-01 | A request for all rows of `majorslist` made with the app's publishable (anon) key and no signed-in user shall return HTTP 200 and exactly 21 rows, including the row named "Other". | Confirmed | CR-2 (Unconfirmed): The system shall allow unauthenticated users to read the list of majors. |
+| REQ-DC-02 | Inserting a row into `majorslist` with the name `Biology` while a row named `Biology` already exists shall fail with SQLSTATE 23505 (unique violation), and the table shall still hold 21 rows. | Confirmed | CR-5 (Confirmed): The system shall reject a major whose name already exists. |
+| REQ-DC-03 | Inserting a row into `majorslist` whose name equals an existing name except for letter case or a trailing space (for example `biology`, `BIOLOGY`, or `Biology ` with one trailing space) shall fail, and the table shall still hold 21 rows. | Suspected bug | New |
+| REQ-DC-04 | Inserting a row into `majorslist` whose name is an empty string or only spaces shall fail, and the table shall still hold 21 rows. | Suspected bug | New |
+| REQ-DC-05 | After a student submits the Create Profile form with the major "Biology", the new `test-users` row shall have a `majorID` value equal to the `id` of the "Biology" row in `majorslist`. | Suspected bug | New |
 
 ### Non-Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| | | | |
+| NFR-DC-01 | (Security) An INSERT, UPDATE, or DELETE on `majorslist` made as the `anon` role shall fail with SQLSTATE 42501 (permission denied), and the table shall still hold the same 21 rows afterward. | Confirmed | New |
+| NFR-DC-02 | (Usability) When the request for `majorslist` fails, the Create Profile page shall replace the loading spinner with the text "Could not load majors. Please try again." within 10 seconds. | Suspected bug | New |
 
----
 
 ## Section: [Your Area] ([Your Name])
 
