@@ -1,13 +1,13 @@
-# Testable Requirements: [Project Name]
+# Testable Requirements: [Study Buddy Finder]
 
-**Team number:** [XX]
-**Inherited from:** Team [XX]
+**Team number:** [07]
+**Inherited from:** Team [06]
 
 ## Who Owns What
 
 | Area of the system | Owner | ID prefix |
 |---|---|---|
-| [example: Accounts and login] | [name] | [initials, like MG] |
+| [Signup] | [Darrin Yun] | [DY] |
 | | | |
 | | | |
 | | | |
@@ -23,27 +23,27 @@ RULES
 
 ---
 
-## Section: [Your Area] ([Your Name])
+## Section: [Signup] ([Darrin Yun])
 
 ### Stakeholder Goals
 
 | ID | Stakeholder | Goal |
 |---|---|---|
-| G-XX-01 | | |
+| G-DY-01 |Student User |The system shall allow a student to reset their password upon request via phone number. |
 
 ### Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| REQ-XX-01 | | | |
-| REQ-XX-02 | | | |
-| REQ-XX-03 | | | |
+| REQ-DY-01 | The system shall reject passwords that is less than 8, greater than 30 characters, empty, or does not use at least 3 special characters, and notify the user which requirement they failed to meet.  | Suspected |CR-1 The system shall reject a password that is less than 8 characters, greater than 30, is empty, and does not use at least 3 special characters. |
+| REQ-DY-02 | The system shall notify the user every time a successful save occurs at any point in the program.| Suspected |CR-4 Candidate requirement The system shall return true from saveProfile() when a profile is saved successfully.|
+| REQ-DY-03 | - The system shall load options for students to select when creating a new profile for major and class.| Suspected |New |
 
 ### Non-Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
 |---|---|---|---|
-| NFR-XX-01 | | | |
+| NFR-DY-01 | The sign-up should log the user in under 5 seconds of creating a new account.| Suspected | New |
 
 ### Example of a Good Rewrite
 
