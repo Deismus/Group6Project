@@ -82,26 +82,26 @@ RULES
 | NFR-DC-02 | (Usability) When the request for `majorslist` fails, the Create Profile page shall replace the loading spinner with the text "Could not load majors. Please try again." within 10 seconds. | Suspected bug | New |
 
 
-## Section: [Your Area] ([Your Name])
+## Section: [Session Scheduling] ([Jacob Black])
 
 ### Stakeholder Goals
 
 | ID | Stakeholder | Goal |
-|---|---|---|
+|G-JB-01|SDSU student searching for study buddies|I want study buddies that share my major to show up at the top of the list so that I can identify them easily|
 | | | |
 
 ### Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
-|---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+|REQ-JB-01|The system shall reject a time that has hours at or above 24 and/or minutes above 59|Confirmed|New|
+|REQ-JB-02|The system shall reject any input that is empty or contains letters or special characters|Confirmed|New|
+|REQ-JB-03|The system shall return an error message if there are 2 or more sessions with the same day and times|Confirmed|New|
+|REQ-JB-04|The system shall return an error message if the starting time is later than the end time|Suspected Bug|CR-3|
 
 ### Non-Functional Requirements
 
 | ID | Requirement | Status | From Part 5 |
-|---|---|---|---|
+|NF-JB-01|The system shall only allow the user to schedule 5 sessions at a time|Confirmed|New|
 | | | | |
 
 ---
