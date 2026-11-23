@@ -2,7 +2,7 @@
   |Test Name|Bucket|Issue|Severity|Priority|Owner|Status|
   |-----|-----|-----|-----|-----|-----|-----|
   |DY-04|Code|#101|Minor|Low|Darrin|Fixed|
-  |DC-03|Code|#121|Minor|Low|Diego|Fixed|
+  |DC-03|Code|#121|Minor|Low|Diego(Fixed by Darrin)|Fixed|
   |DF-01|Code|#128 (also #129, #130)|Major|High|Dylan|Fixed|
   |JB-02|Code|#134|Minor|Medium|Dylan|Fixed|
 
