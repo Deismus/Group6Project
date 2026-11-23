@@ -267,6 +267,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         // Start time
                         Expanded(
                           child: DropdownMenu<TimeOfDay>(
+                            enableSearch: false,
                             expandedInsets: EdgeInsets.zero,
                             hintText: 'Start',
                             dropdownMenuEntries: timeEntries(),
@@ -280,6 +281,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         // End time
                         Expanded(
                           child: DropdownMenu<TimeOfDay>(
+                            enableSearch: false,
                             expandedInsets: EdgeInsets.zero,
                             hintText: 'End',
                             dropdownMenuEntries: timeEntries(),
