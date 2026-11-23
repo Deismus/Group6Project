@@ -88,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
-                    hintText: 'Enter a password that is 8-20 in length',
+                    hintText: 'Enter a password that is 8-30 in length',
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -365,9 +365,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               passwordError = 'Passwords do not match';
                             });
                           }
-                          else if (passwordController.text.length < 8 || passwordController.text.length > 20) {
+                          else if (passwordController.text.length < 8 || passwordController.text.length > 30) {
                             setState(() {
-                              passwordError = 'Password must be 8-20 characters long';
+                              passwordError = 'Password must be 8-30 characters long';
                             });
                           }
                           else {  
