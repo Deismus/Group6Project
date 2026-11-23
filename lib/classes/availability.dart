@@ -15,7 +15,17 @@ class Availability {
     TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0),
   })  : day = day,
         startTime = startTime,
-        endTime = endTime;
+        endTime = endTime {
+    final isUnsetDefault = startTime.hour == 0 &&
+        startTime.minute == 0 &&
+        endTime.hour == 0 &&
+        endTime.minute == 0;
+    final startMinutes = startTime.hour * 60 + startTime.minute;
+    final endMinutes = endTime.hour * 60 + endTime.minute;
+    if (!isUnsetDefault && endMinutes <= startMinutes) {
+      throw ArgumentError('End time must be after start time');
+    }
+  }
 
   void setAvailability(List<dynamic> availabilityList) {
     // TODO: Update the availability fields using the list.
