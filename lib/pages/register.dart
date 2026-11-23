@@ -136,10 +136,20 @@ class _SignUpPageState extends State<SignUpPage> {
                 FutureBuilder(
                   future: majorsList,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
+                  
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return const Text(
+                      'Error loading majors',
+                      style: TextStyle(
+                      color: Color.fromARGB(255, 179, 38, 30),
+                      fontSize: 12,
+                      ),
+                    );
+                  }
+                    
                     final majors = snapshot.data!;
 
                     return DropdownMenu<String>(
@@ -177,8 +187,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 FutureBuilder(
                   future: classesList,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                   if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
+                    }
+
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      return const Text(
+                        'Error loading classes',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 179, 38, 30),
+                          fontSize: 12,
+                        ),
+                      );
                     }
 
                     final classes = snapshot.data!;
