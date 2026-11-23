@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    PatternInputFormatter(patterns: ['###-###-####']),
+                    PatternInputFormatter(patterns: ['##########']),
                   ],
                 ),
 
