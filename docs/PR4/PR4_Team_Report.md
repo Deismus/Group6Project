@@ -3,8 +3,11 @@
   |-----|-----|-----|-----|-----|-----|-----|
   |DY-04|Code|#101|Minor|Low|Darrin|Fixed|
   |DC-03|Code|#121|Minor|Low|Diego|Fixed|
+  |DF-01|Code|#128 (also #129, #130)|Major|High|Dylan|Fixed|
+  |JB-02|Code|#134|Minor|Medium|Dylan|Fixed|
 
-2) Regression Log:
+
+3) Regression Log:
    No regressions found. 
 
 Sun Nov 22, 2026: baseline before fixes: 5 passed, 1 failed (supabase_test.dart, pre-existing)
