@@ -93,6 +93,25 @@ The project is managed through GitHub. Pull requests are used to review and merg
 
 Automated test results can be checked in the repository's **Actions** tab. The status of the latest checks should be verified before considering a change ready to merge.
 
+## How to run the tests
+
+1. Install Flutter (https://docs.flutter.dev/get-started/install) and make sure `flutter doctor` runs.
+2. Clone the repo and open a terminal in the project folder:
+   git clone https://github.com/Deismus/Group6Project
+   cd Group6Project
+3. Download the dependencies:
+   flutter pub get
+4. Run every test:
+   flutter test
+5. To run one test file, give its path, for example:
+   flutter test test/password_validation_test.dart
+6. Expected result on main: 13 tests pass and 1 fails. The failing one is
+   test/supabase_test.dart, which was already failing before this sprint
+   (MissingPluginException for shared_preferences).
+
+The unit tests do not need Supabase access. To run the app itself (flutter run -d chrome),
+you need access to the team's Supabase project.
+
 ## Repository
 
 [Study Buddy Finder on GitHub](https://github.com/Deismus/Group6Project)
